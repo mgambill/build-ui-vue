@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer base {
+  * { min-width: 0; }
+  html, body, #app { height: 100%;}
+  body {
+    @apply bg-gray-50 dark:bg-slate-900;
+  }
+  .control {
+    @apply mb-1 block bg-white text-xs font-medium text-gray-900;
+  }
+
+  textarea,
+  input,
+  select {
+    @apply block w-full rounded-sm border border-control bg-white p-2 text-sm;
+  }
+}
