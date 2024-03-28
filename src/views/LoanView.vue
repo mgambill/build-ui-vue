@@ -13,9 +13,8 @@ import {
   createNumeric,
   createPassword,
   createParagraph,
-  createRadioList,
-  createRepeater,
   createRow,
+  createRadioList,
   createPage,
   createOptions,
   createPanel,
@@ -31,7 +30,6 @@ import { useToggle } from '@vueuse/core';
 const schema = createPage({
   title: 'Custom Form',
   fields: [
-
     createPanel(
       "Markup",
       createRow(
@@ -43,7 +41,6 @@ const schema = createPage({
         createHeader("A Heading")
       )
     ),
-
     createPanel(
       "Simple Fields",
       createHeader("Text Fields"),
@@ -69,7 +66,6 @@ const schema = createPage({
         property: 'paragraph-field',
         defaultValue: 'default paragraph'
       }),
-
       createDivider(),
       createHeader("Date & Time Fields"),
       createRow(
@@ -88,9 +84,7 @@ const schema = createPage({
           property: 'time-field',
           defaultValue: '@now()'
         })
-
       ),
-
       createDivider(),
       createHeader("Boolean Fields"),
       createRow(
@@ -113,7 +107,7 @@ const schema = createPage({
         createDropdown({
           label: 'Data Room Name',
           options: createOptions('Apple', 'Banana', 'Cherry'),
-          property: 'dropdown-field'
+          property: 'radio-field'
         })
       ),
       createRow(
@@ -130,30 +124,12 @@ const schema = createPage({
         })
       )
     ),
-
     createPanel(
       "Compound Fields",
       createAddress({
         label: 'Address Field',
         property: 'address-field',
         defaultValue: ({ lineOne: 'lineOne', lineTwo: 'lineTwo?', city: 'city', region: 'state', postalCode: 'zipcode' })
-      }),
-      createDivider(),
-      createRepeater({
-
-        label: 'Repeater Field',
-        fields: [
-          createText({
-            label: 'Text Field',
-            property: 'text-field'
-          }),
-          createNumeric({
-            label: 'Numeric Field',
-            property: 'numeric-field',
-            defaultValue: 2
-          })
-        ],
-        property: 'repeater-field'
       })
     )
   ]

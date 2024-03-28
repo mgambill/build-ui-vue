@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { EditorInjectionKey } from '@/components/EditorProvider'
+import { useEditorState } from '@/components/EditorProvider'
 import Wrapper from './Wrapper.vue'
 import type { FieldProps } from '.';
 
 const props = defineProps<FieldProps>()
 
-const { isEditor = false } = inject(EditorInjectionKey) ?? {}
+const { isEditor = false } = useEditorState()
 </script>
 
 <template>
@@ -22,7 +22,7 @@ const { isEditor = false } = inject(EditorInjectionKey) ?? {}
         </div>
       </template>
       <template v-else>
-        <hr class="border-t border-gray-300" />
+        <hr class="border-t border-gray-200 my-4" />
       </template>
     </div>
   </Wrapper>

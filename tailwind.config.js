@@ -1,5 +1,5 @@
 import plugin from 'tailwindcss/plugin'
-
+import defaultTheme from 'tailwindcss/defaultTheme'
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -11,7 +11,11 @@ export default {
       borderColor: (theme) => ({
         // @ts-ignore
         control: theme('colors.zinc.300')
-      })
+      }),
+      fontFamily: {
+        sans: ['Inter var', ...defaultTheme.fontFamily.sans],
+      },
+
     },
   },
   plugins: [

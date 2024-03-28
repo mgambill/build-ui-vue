@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { EditorInjectionKey, useEditor, type PathwayTemplate } from '@/components/EditorProvider'
-import FieldsResolver from './fields/FieldsResolver.vue';
+import type { ParentConfig } from "@formkit/drag-and-drop";
+import { useDragAndDrop } from "@formkit/drag-and-drop/vue";
+import { useProvideEditorState, type PathwayTemplate, useEditorState } from '@/components/EditorProvider'
+import FieldCollectionResolver from './fields/FieldCollectionResolver.vue';
 import type { Field } from '@/components/fields/types'
 
 import SinglelineField from '@/components/fields/SinglelineField.vue';
@@ -11,19 +13,20 @@ import NumberField from '@/components/fields/NumberField.vue';
 import InlineContent from '@/components/ui/InlineContent.vue';
 import type { FieldProps } from './fields';
 
+
 const datasource = defineModel<PathwayTemplate>({ required: true })
 const isEditor = ref(true)
 
 watchEffect(() => {
-  if (isEditor.value)
-  {
+  if (isEditor.value) {
     (document.body.parentNode as HTMLHtmlElement)!.dataset.editor = ''
   } else {
     delete (document.body.parentNode as HTMLHtmlElement)!.dataset.editor
   }
 })
 
-provide(EditorInjectionKey, useEditor(isEditor, datasource))
+useProvideEditorState(isEditor, datasource)
+const { currentField } = useEditorState()
 
 const EmptyField = (props: FieldProps) => {
   return h('div', `Empty ${props.field.controlId}`)
@@ -62,10 +65,17 @@ const map = {
 const mapControl = ({ controlId }: Partial<Field>) => {
   return controlId && controlId in map ? map[controlId] : EmptyField ?? EmptyField
 }
+
+const [
+  el,
+  items] =
+  useDragAndDrop(datasource.value.steps, {
+    group: 'steps'
+  })
 </script>
 
 <template>
-  <label class="inline-flex gap-1 items-center editor:bg-slate-600">
+  <label class="inline-flex gap-1 items-center editor:bg-slate-200 stacked">
     <div>
       <input type="checkbox" name="" id="" v-model="isEditor" class="size-5">
     </div>
@@ -76,18 +86,19 @@ const mapControl = ({ controlId }: Partial<Field>) => {
     <div class="mb-4">
       <InlineContent v-model="datasource.title" class="inline text-3xl font-light" :enabled="isEditor" />
     </div>
-    <div class="section space-y-4">
-      <template v-for="step in datasource.steps ?? []" :key="step.id">
+    <div class="section space-y-4" ref="el">
+      <template v-for="step in items" :key="step.id">
         <div class="border border-zinc-300 rounded p-4 bg-white editor:hover:border-orange-300 editor:hover:shadow-sm">
           <h3 class="mb-4">
             <InlineContent v-model="step.title" class="inline text-lg font-medium" :enabled="isEditor" />
           </h3>
-          <div class="space-y-3">
+          <FieldCollectionResolver :field="step" class="space-y-3" :depth="0" :index="-1" />
+          <!-- <div class="space-y-3" ref="wrapper">
             <FieldsResolver :fields="step.fields" />
-          </div>
+          </div> -->
         </div>
       </template>
     </div>
   </section>
-  <pre>{{ datasource }}</pre>
+  <pre>{{ { currentField } }}</pre>
 </template>

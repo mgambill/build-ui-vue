@@ -1,26 +1,20 @@
 <script setup lang="ts">
 import InlineContent from '../ui/InlineContent.vue';
+import { twMerge } from 'tailwind-merge';
 import { useEditorState } from '@/components/EditorProvider'
 import Label from '@/components/ui/Label.vue'
 import type { FieldProps } from '.';
 
-const { field, fields } = defineProps<FieldProps>()
+const { field } = defineProps<{ field: FieldProps['field'] }>()
 const { isEditor = false, updateField } = useEditorState()
-const label = computed({
-  get: () => {
-    return field.label?.text ?? ''
-  },
-  set: (value: string) => {
-    updateField({ ...toValue(field), label: { text: value } }, fields)
-  },
-})
+
 </script>
 
 <template>
   <template v-if="isEditor && field">
-    <InlineContent v-model="label" class="text-sm font-medium text-gray-700" />
+    <!-- <InlineContent v-model="field.label.text" class="text-xl font-light text-gray-700" /> -->
   </template>
   <template v-else>
-    <Label class="mb-1" data-field="label">{{ field.label?.text }}</Label>
+    <p :class="twMerge('text-lg my-1', $attrs.class as any)">{{ field.label?.text }}</p>
   </template>
 </template>

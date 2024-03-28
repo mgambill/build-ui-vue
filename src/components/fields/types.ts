@@ -93,6 +93,7 @@ export type Field = {
   fields?: FieldCollection
   options?: Option[]
   content: string
+  defaultValue: any
   // content?: {
   //   type: 'html' | 'markdown' | 'text' | 'json'
   //   value: string
@@ -117,7 +118,7 @@ export type Form = Entity<{
   name: string
   title: string
   application: RelationId
-  description: string
+  description?: string
   template: 'tabs' | 'simple' | 'wizard'
   slots: SlotRecord
   $meta?: any
