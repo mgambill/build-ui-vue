@@ -16,13 +16,24 @@ const onSubmit = () => {
   addOption(props.field, temp.value)
   onCancel()
 }
-
+const emptyOther = { label: 'Other', value: 'Other' }
 const onCancel = () => {
   temp.value = ""
 }
 const temp = ref<string>('')
 const direction = props.field.props?.direction ?? 'horizontal'
 const value = useValue<Option>(props)
+const allowOther = props.field.props?.allowOther
+const isOther = computed(() => allowOther && value.value === emptyOther.value)
+watchEffect(() => {
+  value.value = (isOther.value) ? emptyOther : null
+})
+const options = computed(() => {
+  if (props.field.props?.allowOther) {
+    return [props.field.options, emptyOther]
+  }
+  return props.field.options
+})
 </script>
 
 <template>
@@ -34,7 +45,7 @@ const value = useValue<Option>(props)
 
       <div :class="direction ? 'flex gap-4' : 'flex flex-col gap-4'">
 
-        <template v-for="op in props.field.options  " :key="op">
+        <template v-for="op in options" :key="op">
           <template v-if="isEditor && field">
             <div class="flex items-center gap-1 hover:bg-sky-50">
               <input type="radio" :name="`option-${op.value}`" v-model="value" :value="op"
@@ -52,6 +63,14 @@ const value = useValue<Option>(props)
             </div>
           </template>
         </template>
+
+        <!-- <template v-if="props.field.props?.allowOther">
+          <div class="flex items-center gap-1.5">
+            <input type="radio" v-model="isOther" :name="`fld-${field.id}`" :id="`option-${field.id}-other`"
+              value="Other" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" />
+            <label :for="`option-${field.id}-other`">Other</label>
+          </div>
+        </template> -->
 
         <template v-if="isEditor && field">
           <template v-if="props.field.options?.length === 0">

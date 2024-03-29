@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { useEditorState } from '@/components/EditorProvider'
- import { useFormState } from './useFormState'
-import type { FieldProps } from '.';
+import Wrapper from './Wrapper.vue'
+import LabelField from './LabelField.vue';
+import type { FieldProps, Option } from '.';
+import { useFormState } from './useFormState'
 
 const props = defineProps<FieldProps>()
-const { useValue } = useFormState()
+
 const { isEditor = false } = useEditorState()
-const value = useValue<string>(props)
+const { useValue } = useFormState()
+const value = useValue<Option>(props)
 
 
 </script>
@@ -15,22 +18,20 @@ const value = useValue<string>(props)
   <Wrapper v-bind="props">
     <LabelField v-bind="props" />
 
-    <select name="" id="" v-model="value">
-      <template v-for="o in field.options" :key="o.label">
-        <template v-if="'group' in o && o.group && o.options">
-          <optgroup :label="o.group">
-            <template v-for="co in o.options" :key="co.value">
-              <option :value="co">{{ co.label }}</option>
+    <select name="" id="" v-if="field.options" v-model="value">
+      <template v-for="option in field.options" :key="option.value">
+        <template v-if="'group' in option && option.group">
+          <optgroup :label="option.group">
+            <template v-for="o in option.options" :key="o.value">
+              <option v-if="'value' in o && 'label' in o" :value="o.value">{{ o.label }}</option>
             </template>
           </optgroup>
         </template>
-        <template v-else>
-          <option :value="o">{{ o.label }}</option>
+        <template v-else-if="'value' in option">
+          <option :value="option.value">{{ option.label }}</option>
         </template>
-
       </template>
     </select>
-
-
   </Wrapper>
+
 </template>
