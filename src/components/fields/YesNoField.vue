@@ -39,14 +39,14 @@ const direction = props.field.props?.direction ?? 'horizontal'
         <template v-for="op in [{ label: 'Yes', value: true }, { label: 'No', value: false }] " :key="op">
           <template v-if="isEditor && field">
             <div class="flex items-center gap-1 hover:bg-sky-50">
-              <input type="radio" :name="`option-${op.value}`" v-model="value" :value="op.value"
+              <input type="radio" :name="`option-${field.id}-${op.value}`" v-model="value" :value="op.value"
                 class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" />
               <InlineContent v-model="op.label" />
             </div>
           </template>
           <template v-else>
             <div class="flex items-center gap-1.5">
-              <input type="radio" :name="`fld-${field.id}`" :id="`option-${op.value}`" v-model="value" :value="op.value"
+              <input type="radio" :name="`fld-${field.id}`" :id="`option-${field.id}-${op.value}`" v-model="value" :value="op.value"
                 class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" />
               <label :for="`option-${op.value}`">{{ op.label }}</label>
             </div>

@@ -1,5 +1,6 @@
-import type { Ref } from 'vue'
-
+import type { Component, Ref } from 'vue'
+import { defineComponent } from 'vue'
+type DefineComponent = ReturnType<typeof defineComponent>
 export type Prettify<T> = {
   [K in keyof T]: T[K]
 } & {}
@@ -36,6 +37,7 @@ export type ControlDefinition = {
   properties?: Record<string, Property>
   type?: string
   classification: ClassificationDefinitionType
+  component: Component | DefineComponent | (() => Promise<Component | DefineComponent>)
 }
 
 export type Property = {
@@ -75,6 +77,9 @@ export type Option = {
   value: string | number | null | boolean
   label?: string
   icon?: string
+} | {
+  group: string,
+  options: Omit<Option, 'group' | 'options'>[]
 }
 export type FieldCollection = Partial<Field>[]
 

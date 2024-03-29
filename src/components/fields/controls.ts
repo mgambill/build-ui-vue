@@ -1,4 +1,13 @@
+import type { FieldProps } from '.'
 import type { ClassificationDefinition, ClassificationDefinitionType, ControlDefinition } from './types'
+
+const emptyField = defineComponent(
+  ({ field }: FieldProps) => {
+    const c = controls.find(c => c.id === field.controlId)
+    return () => h('div', null, c?.fieldName ?? field.controlId)
+  },
+  { props: ['field'] }
+)
 
 export const controls: ControlDefinition[] = [
   {
@@ -17,6 +26,7 @@ export const controls: ControlDefinition[] = [
     icon: 'fa-light fa-tag',
     category: 'markup',
     classification: 'literals',
+    component: () => import('./LabelField.vue')
   },
   {
     id: 1150,
@@ -34,6 +44,7 @@ export const controls: ControlDefinition[] = [
     icon: 'fa-light fa-pen-ruler',
     category: 'markup',
     classification: 'literals',
+    component: () => import('./ContentField.vue')
   },
   {
     id: 1152,
@@ -57,6 +68,7 @@ export const controls: ControlDefinition[] = [
     icon: 'fa-light fa-h1',
     category: 'markup',
     classification: 'literals',
+    component: () => import('./HeadingField.vue')
   },
   {
     id: 1124,
@@ -75,6 +87,7 @@ export const controls: ControlDefinition[] = [
     icon: 'fa-light fa-memo-pad',
     category: 'question',
     classification: 'inputs',
+    component: () => import('./ParagraphField.vue')
   },
   {
     id: 1161,
@@ -93,6 +106,7 @@ export const controls: ControlDefinition[] = [
     icon: 'fa-light fa-key',
     category: 'question',
     classification: 'inputs',
+    component: () => import('./PasswordField.vue')
   },
   {
     id: 1162,
@@ -110,6 +124,7 @@ export const controls: ControlDefinition[] = [
     icon: 'fa-light fa-file-dashed-line',
     category: 'markup',
     classification: 'literals',
+    component: () => import('./DividerField.vue')
   },
   {
     id: 1126,
@@ -134,6 +149,7 @@ export const controls: ControlDefinition[] = [
     icon: 'fa-light fa-calendar ',
     category: 'datetime',
     classification: 'inputs',
+    component: () => import('./DateField.vue')
   },
   {
     id: 1140,
@@ -152,6 +168,7 @@ export const controls: ControlDefinition[] = [
     icon: 'fa-light fa-clock',
     category: 'datetime',
     classification: 'inputs',
+    component: () => import('./TimeField.vue')
   },
   {
     id: 1106,
@@ -170,12 +187,14 @@ export const controls: ControlDefinition[] = [
       type: {
         type: 'array',
         options: ['string', 'Website', 'Email', 'Phone'],
+        defaultValue: 'string'
       },
     },
     type: 'string',
     icon: 'fa-light fa-input-text',
     category: 'question',
     classification: 'inputs',
+    component: () => import('./TextField.vue')
   },
   {
     id: 1157,
@@ -205,6 +224,7 @@ export const controls: ControlDefinition[] = [
     icon: 'fa-light fa-input-numeric',
     category: 'question',
     classification: 'inputs',
+    component: () => import('./NumberField.vue')
   },
   {
     id: 1158,
@@ -223,6 +243,7 @@ export const controls: ControlDefinition[] = [
     icon: 'fa-light fa-star',
     category: 'compound',
     classification: 'inputs',
+    component: () => import('./RatingField.vue')
   },
   {
     id: 1160,
@@ -241,6 +262,7 @@ export const controls: ControlDefinition[] = [
     icon: 'fa-light fa-calendar-clock ',
     category: 'datetime',
     classification: 'inputs',
+    component: () => import('./DateTimeField.vue')
   },
   {
     id: 1105,
@@ -277,6 +299,7 @@ export const controls: ControlDefinition[] = [
     icon: 'fa-light fa-list',
     category: 'list',
     classification: 'lists',
+    component: () => import('./CheckboxListField.vue')
   },
   {
     id: 1104,
@@ -318,6 +341,7 @@ export const controls: ControlDefinition[] = [
     icon: 'fa-light fa-list-radio',
     category: 'list',
     classification: 'lists',
+    component: () => import('./RadiobuttonListField.vue')
   },
   {
     id: 1114,
@@ -352,6 +376,7 @@ export const controls: ControlDefinition[] = [
     icon: 'fa-light fa-scale-balanced',
     category: 'list',
     classification: 'advanced',
+    component: emptyField
   },
   {
     id: 1116,
@@ -369,6 +394,7 @@ export const controls: ControlDefinition[] = [
     icon: 'fa-light fa-list-check',
     category: 'list',
     classification: 'lists',
+    component: emptyField
   },
   {
     id: 1117,
@@ -386,6 +412,7 @@ export const controls: ControlDefinition[] = [
     icon: 'fa-light fa-bolt',
     category: 'question',
     classification: 'lists',
+    component: emptyField
   },
   {
     id: 1103,
@@ -404,6 +431,7 @@ export const controls: ControlDefinition[] = [
     icon: 'fa-light fa-list-dropdown',
     category: 'list',
     classification: 'lists',
+    component: () => import('./SelectField.vue')
   },
   {
     id: 1101,
@@ -428,6 +456,7 @@ export const controls: ControlDefinition[] = [
     icon: 'fa-light fa-toggle-on',
     category: 'boolean',
     classification: 'inputs',
+    component: () => import('./Field.vue')
   },
   {
     id: 1165,
@@ -446,6 +475,7 @@ export const controls: ControlDefinition[] = [
     icon: 'fa-light fa-memo-circle-check',
     category: 'boolean',
     classification: 'inputs',
+    component: () => import('./Field.vue')
   },
   {
     id: 1166,
@@ -464,6 +494,7 @@ export const controls: ControlDefinition[] = [
     icon: 'fa-light fa-credit-card-blank fa-flip-vertical',
     category: 'container',
     classification: 'panels',
+    component: () => import('./Field.vue')
   },
   {
     id: 1167,
@@ -486,6 +517,7 @@ export const controls: ControlDefinition[] = [
     icon: 'fa-light  fa-rectangle-history-circle-plus',
     category: 'compound',
     classification: 'advanced',
+    component: () => import('./Field.vue')
   },
   {
     id: 1168,
@@ -504,6 +536,7 @@ export const controls: ControlDefinition[] = [
     icon: 'fa-light fa-columns-3',
     category: 'container',
     classification: 'panels',
+    component: () => import('./Field.vue')
   },
   {
     id: 1169,
@@ -521,6 +554,7 @@ export const controls: ControlDefinition[] = [
     icon: 'fa-light fa-address-card',
     category: 'compound',
     classification: 'advanced',
+    component: () => import('./Field.vue')
   },
   {
     id: 1170,
@@ -550,6 +584,7 @@ export const controls: ControlDefinition[] = [
     icon: 'fa-light fa-rectangle',
     category: 'markup',
     classification: 'literals',
+    component: () => import('./Field.vue')
   },
   {
     id: 2000,
@@ -568,6 +603,7 @@ export const controls: ControlDefinition[] = [
     icon: 'fa-light fa-square-dashed',
     category: 'container',
     classification: 'panels',
+    component: () => import('./Field.vue')
   },
   {
     id: 2001,
@@ -601,6 +637,7 @@ export const controls: ControlDefinition[] = [
       },
     },
     classification: 'advanced',
+    component: () => import('./Field.vue')
   },
   {
     id: 3100,
@@ -619,6 +656,7 @@ export const controls: ControlDefinition[] = [
     icon: 'fab fa-markdown',
     category: 'markup',
     classification: 'literals',
+    component: () => import('./Field.vue')
   },
 ]
 

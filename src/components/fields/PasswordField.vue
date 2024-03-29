@@ -20,7 +20,7 @@ const value = useValue<string>(props)
       class="relative border border-control rounded-sm overflow-clip  has-[:focus-visible]:outline has-[:focus-visible]:outline-offset-0 has-[:focus-visible]:outline-black ">
       <input :type="isVisible ? 'text' : 'password'" v-model="value" class="!border-0 focus-visible:outline-none pr-8" />
       <div class="absolute inset-y-0 right-2 flex items-center">
-        <button type="button" class="w-5" @click="toggle()">
+        <button type="button" class="w-4" @click="toggle()">
           <template v-if="isVisible">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" class="stroke-gray-500">
               <path

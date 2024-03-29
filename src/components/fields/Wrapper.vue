@@ -5,12 +5,14 @@ import { twMerge } from 'tailwind-merge';
 type Props = {
   block?: boolean
 }
-const { block = false, props } = defineProps<FieldProps & Props>()
+const { block = false, ...props } = defineProps<FieldProps & Props>()
 const { isEditor = false, selectField } = useEditorState()
 const onClick = () => {
   if (props && props.field)
     selectField(props.field)
 }
+
+
 </script>
 
 <template>

@@ -1,161 +1,148 @@
 <script setup lang="ts">
 import { useProvideFormState } from '../components/fields/useFormState'
 
-import {
-  createAddress,
-  createCheckboxList,
-  createConsent,
-  createDivider,
-  createDateTime,
-  createDate,
-  createDropdown,
-  createHeader,
-  createNumeric,
-  createPassword,
-  createParagraph,
-  createRadioList,
-  createRepeater,
-  createRow,
-  createPage,
-  createOptions,
-  createPanel,
-  createLabel,
-  createText,
-  createTime,
-  createYesNo,
-} from '~/fields'
+import * as fields from '~/fields'
+import { createOptions } from '~/fields'
 
 import FieldCollectionResolver from '../components/fields/FieldCollectionResolver.vue'
 import { useToggle } from '@vueuse/core';
 
-const schema = createPage({
+const schema = fields.page({
   title: 'Custom Form',
   fields: [
 
-    createPanel(
-      "Markup",
-      createRow(
-        createLabel("Label Field"),
-        createLabel("Heading Field")
+    fields.panel({
+      label: "Markup",
+      fields: [fields.row(
+        fields.label("Label Field"),
+        fields.label("Heading Field")
       ),
-      createRow(
-        createLabel("My Label"),
-        createHeader("A Heading")
+      fields.row(
+        fields.label("My Label"),
+        fields.header("A Heading")
       )
-    ),
+      ]
+    }),
 
-    createPanel(
-      "Simple Fields",
-      createHeader("Text Fields"),
-      createRow(
-        createText({
-          label: 'Text Field',
-          property: 'text-field',
-          defaultValue: 'default text'
-        }),
-        createPassword({
-          label: 'Password Field',
-          property: 'password-field',
-          defaultValue: 'default password'
-        }),
-        createNumeric({
-          label: 'Numeric Field',
-          property: 'numeric-field',
-          defaultValue: 10
-        })
-      ),
-      createParagraph({
-        label: "Paragraph Field",
-        property: 'paragraph-field',
-        defaultValue: 'default paragraph'
-      }),
-
-      createDivider(),
-      createHeader("Date & Time Fields"),
-      createRow(
-        createDate({
-          label: 'Date Field',
-          property: 'date-field',
-          defaultValue: '@now()'
-        }),
-        createDateTime({
-          label: 'Date/Time Field',
-          property: 'datetime-field',
-          defaultValue: '@now()'
-        }),
-        createTime({
-          label: 'Time Field',
-          property: 'time-field',
-          defaultValue: '@now()'
-        })
-
-      ),
-
-      createDivider(),
-      createHeader("Boolean Fields"),
-      createRow(
-        createYesNo({
-          label: 'Yes No Field',
-          property: 'yesno-field',
-          defaultValue: true
-        }),
-        createConsent({
-          label: 'Consent Field',
-          property: 'consent-field',
-          content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
-          defaultValue: true
-        }),
-      )
-    ),
-    createPanel(
-      "List Fields",
-      createRow(
-        createDropdown({
-          label: 'Data Room Name',
-          options: createOptions('Apple', 'Banana', 'Cherry'),
-          property: 'dropdown-field'
-        })
-      ),
-      createRow(
-        createRadioList({
-          label: 'Radio List Field',
-          options: createOptions('Apple', 'Banana', 'Cherry'),
-          property: 'radio-field'
-        }),
-        createCheckboxList({
-          label: 'Checkbox List Field',
-          options: createOptions('Apple', 'Banana', 'Cherry'),
-          property: 'checkbox-field',
-          direction: 'horizontal'
-        })
-      )
-    ),
-
-    createPanel(
-      "Compound Fields",
-      createAddress({
-        label: 'Address Field',
-        property: 'address-field',
-        defaultValue: ({ lineOne: 'lineOne', lineTwo: 'lineTwo?', city: 'city', region: 'state', postalCode: 'zipcode' })
-      }),
-      createDivider(),
-      createRepeater({
-
-        label: 'Repeater Field',
-        fields: [
-          createText({
+    fields.panel({
+      label: "Simple Fields",
+      fields: [
+        fields.header("Text Fields"),
+        fields.row(
+          fields.text({
             label: 'Text Field',
-            property: 'text-field'
+            property: 'text-field',
+            defaultValue: 'default text'
           }),
-          createNumeric({
+          fields.password({
+            label: 'Password Field',
+            property: 'password-field',
+            defaultValue: 'default password'
+          }),
+          fields.numeric({
             label: 'Numeric Field',
             property: 'numeric-field',
-            defaultValue: 2
+            defaultValue: 10
           })
-        ],
-        property: 'repeater-field'
-      })
-    )
+        ),
+        fields.paragraph({
+          label: "Paragraph Field",
+          property: 'paragraph-field',
+          defaultValue: 'default paragraph'
+        }),
+
+        fields.divider(),
+        fields.header("Date & Time Fields"),
+        fields.row(
+          fields.date({
+            label: 'Date Field',
+            property: 'date-field',
+            defaultValue: '@now()'
+          }),
+          fields.dateTime({
+            label: 'Date/Time Field',
+            property: 'datetime-field',
+            defaultValue: '@now()'
+          }),
+          fields.time({
+            label: 'Time Field',
+            property: 'time-field',
+            defaultValue: '@now()'
+          })
+
+        ),
+
+        fields.divider(),
+        fields.header("Boolean Fields"),
+        fields.row(
+          fields.yesNo({
+            label: 'Yes No Field',
+            property: 'yesno-field',
+            defaultValue: true
+          }),
+          fields.consent({
+            label: 'Consent Field',
+            property: 'consent-field',
+            content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
+            defaultValue: true
+          }),
+        )
+      ]
+    }
+    ),
+    fields.panel({
+      label: "List Fields",
+      fields: [
+        fields.row(
+          fields.dropdown({
+            label: 'Data Room Name',
+            options: createOptions('Apple', 'Banana', 'Cherry'),
+            property: 'dropdown-field'
+          })
+        ),
+        fields.row(
+          fields.radioList({
+            label: 'Radio List Field',
+            options: createOptions('Apple', 'Banana', 'Cherry'),
+            property: 'radio-field'
+          }),
+          fields.checkboxList({
+            label: 'Checkbox List Field',
+            options: createOptions('Apple', 'Banana', 'Cherry'),
+            property: 'checkbox-field',
+            direction: 'horizontal'
+          })
+        )
+      ]
+    }),
+
+    fields.panel({
+      label: "Compound Fields",
+      fields: [
+        fields.address({
+          label: 'Address Field',
+          property: 'address-field',
+          defaultValue: ({ lineOne: 'lineOne', lineTwo: 'lineTwo?', city: 'city', region: 'state', postalCode: 'zipcode' })
+        }),
+        fields.divider(),
+        fields.repeater({
+
+          label: 'Repeater Field',
+          fields: [
+            fields.text({
+              label: 'Text Field',
+              property: 'text-field'
+            }),
+            fields.numeric({
+              label: 'Numeric Field',
+              property: 'numeric-field',
+              defaultValue: 2
+            })
+          ],
+          property: 'repeater-field'
+        })
+      ]
+    })
   ]
 })
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import SinglelineField from './SinglelineField.vue';
+import TextField from './TextField.vue';
 import DateField from './DateField.vue';
 import RadiobuttonListField from './RadiobuttonListField.vue';
 import CheckboxListField from './CheckboxListField.vue';
@@ -40,7 +40,7 @@ const map = {
   1162: DividerField,
   1126: DateField,
   1140: TimeField,
-  1106: SinglelineField,
+  1106: TextField,
   1157: NumberField,
   //1158: RatingField,
   1160: DateTimeField,
