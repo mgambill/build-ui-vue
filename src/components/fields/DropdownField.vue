@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useEditorState } from '@/components/EditorProvider'
 import Wrapper from './Wrapper.vue'
+import LabelField from './LabelField.vue'
 import type { FieldProps, Option } from '.';
 import {
   Listbox,
@@ -12,6 +13,16 @@ import {
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 import LabelField from './LabelField.vue';
 import { useFormState } from './useFormState'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+
 const props = defineProps<FieldProps>()
 
 const { isEditor = false } = useEditorState()

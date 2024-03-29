@@ -75,14 +75,15 @@ const [
 </script>
 
 <template>
-  <label class="inline-flex gap-1 items-center editor:bg-slate-200 stacked">
-    <div>
-      <input type="checkbox" name="" id="" v-model="isEditor" class="size-5">
-    </div>
-    <span>Editor</span>
-  </label>
 
-  <section v-if="datasource">
+
+  <section v-if="datasource" class="relative">
+    <label class="absolute inline-flex gap-1 items-center editor:bg-slate-100 right-0 z-10">
+      <div>
+        <input type="checkbox" name="" id="" v-model="isEditor" class="size-5">
+      </div>
+      <span>Edit Mode</span>
+    </label>
     <div class="mb-4">
       <InlineContent v-model="datasource.title" class="inline text-3xl font-light" :enabled="isEditor" />
     </div>
@@ -101,4 +102,5 @@ const [
     </div>
   </section>
   <pre>{{ { currentField } }}</pre>
+
 </template>
