@@ -6,7 +6,7 @@ export type FormSchemaOption = {
   fields: Field[];
 };
 export type LabelOption = Field['label'] | string
-
+export type InputTextOption = CreateOption<string> & { placeholder?: string }
 export type CreateOption<T = string> = {
   id?: string
   label: LabelOption,
@@ -28,29 +28,36 @@ export const createHeader = (label: LabelOption) => createField('heading', 1152,
 
 export const createLabel = (label: LabelOption) => createField('label', 1107, { label })
 
-export const createTime = (options: CreateOption) => createField('time', 1140, options)
+export const createTime = (options: CreateOption & { placeholder?: string }) => createField('time', 1140, options)
 
-export const createNumeric = (options: CreateOption<number>) => createField('numeric', 1157, options)
+export const createNumeric = (options: CreateOption<number> & { placeholder?: string, step?: number, min?: number, max?: number }) => {
+  const { placeholder, step, min, max, ...o } = options
+  return createField('numeric', 1157, o, { attrs: { placeholder, step, min, max } })
+}
 
-export const createText = (options: CreateOption) => createField('text', 1106, options)
+export const createText = (option: InputTextOption) => createInputField('text', 1106, option)
 
-export const createPassword = (options: CreateOption) => createField('password', 1161, options)
+export const createPassword = (option: InputTextOption) => createInputField('password', 1161, option)
 
-export const createParagraph = (options: CreateOption) => createField('paragraph', 1124, options)
+export const createParagraph = (option: InputTextOption) => createInputField('paragraph', 1124, option)
 
-export const createDateTime = (options: CreateOption) => createField('datetime', 1160, options)
+export const createDateTime = (option: InputTextOption) => createInputField('datetime', 1160, option)
 
-export const createDate = (options: CreateOption) => createField('date', 1126, options)
+export const createDate = (option: InputTextOption) => createInputField('date', 1126, option)
+
+const createInputField =(control: Field['control'], controlId: number, option: InputTextOption, overrides?: any): Field => {
+  const { placeholder, ...o } = option
+  return createField(control, controlId, o, { attrs: { placeholder } })
+}
 
 
+export const createAddress = (option: CreateOption<Address>) => createField<Address>('address', 1169, option)
 
-export const createAddress = (options: CreateOption<Address>) => createField<Address>('address', 1169, options)
+export const createYesNo = (option: CreateOption<boolean>) => createField('yesno', 1101, option)
 
-export const createYesNo = (options: CreateOption<boolean>) => createField('yesno', 1101, options)
+export const createConsent = (option: CreateOption<boolean> & { content: string }) => createField('consent', 1165, option)
 
-export const createConsent = (options: CreateOption<boolean> & { content: string }) => createField('consent', 1165, options)
-
-export const createDivider = (options?: CreateOption<never>) => createField('divider', 1162, options)
+export const createDivider = (option?: CreateOption<never>) => createField('divider', 1162, option)
 
 
 

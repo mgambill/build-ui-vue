@@ -5,7 +5,7 @@ import { useProvideEditorState, type PathwayTemplate, useEditorState } from '@/c
 import FieldCollectionResolver from './fields/FieldCollectionResolver.vue';
 import type { Field } from '@/components/fields/types'
 
-import SinglelineField from '@/components/fields/SinglelineField.vue';
+import TextField from '@/components/fields/TextField.vue';
 import DateField from '@/components/fields/DateField.vue';
 import RadiobuttonListField from '@/components/fields/RadiobuttonListField.vue';
 import CheckboxListField from '@/components/fields/CheckboxListField.vue';
@@ -41,7 +41,7 @@ const map = {
   //1162: DividerField,
   1126: DateField,
   //1140: TimeField,
-  1106: SinglelineField,
+  1106: TextField,
   1157: NumberField,
   //1158: RatingField,
   //1160: DateTimeField,

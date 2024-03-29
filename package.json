@@ -15,10 +15,11 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@formkit/drag-and-drop": "0.0.33",
     "@headlessui/vue": "^1.7.19",
     "@heroicons/vue": "^2.1.1",
+    "@shoelace-style/shoelace": "^2.15.0",
     "@vueuse/core": "^10.9.0",
-    "@formkit/drag-and-drop": "0.0.33",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "lucide-vue-next": "^0.316.0",

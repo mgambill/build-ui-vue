@@ -28,7 +28,7 @@ function resolveDefaults(datasource: Ref<DataSet>, form: Form) {
       if (key && dv)
         ds[key] = dv
 
-      if ('fields' in field && Array.isArray(field['fields']))
+      if ('fields' in field && Array.isArray(field['fields']) && field.controlId !== 1167)
         extract(field.fields)
 
     }

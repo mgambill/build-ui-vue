@@ -1,99 +1,78 @@
 <script setup lang="ts">
 import { useProvideFormState } from '../components/fields/useFormState'
 
-import {
-  createAddress,
-  createCheckboxList,
-  createConsent,
-  createDivider,
-  createDateTime,
-  createDate,
-  createDropdown,
-  createHeader,
-  createNumeric,
-  createPassword,
-  createParagraph,
-  createRow,
-  createRadioList,
-  createPage,
-  createOptions,
-  createPanel,
-  createLabel,
-  createText,
-  createTime,
-  createYesNo,
-} from '~/fields'
+import * as _ from '~/fields'
 
 import FieldCollectionResolver from '../components/fields/FieldCollectionResolver.vue'
 import { useToggle } from '@vueuse/core';
 
-const schema = createPage({
+const schema = _.createPage({
   title: 'Custom Form',
   fields: [
-    createPanel(
+    _.createPanel(
       "Markup",
-      createRow(
-        createLabel("Label Field"),
-        createLabel("Heading Field")
+      _.createRow(
+        _.createLabel("Label Field"),
+        _.createLabel("Heading Field")
       ),
-      createRow(
-        createLabel("My Label"),
-        createHeader("A Heading")
+      _.createRow(
+        _.createLabel("My Label"),
+        _.createHeader("A Heading")
       )
     ),
-    createPanel(
+    _.createPanel(
       "Simple Fields",
-      createHeader("Text Fields"),
-      createRow(
-        createText({
+      _.createHeader("Text Fields"),
+      _.createRow(
+        _.createText({
           label: 'Text Field',
           property: 'text-field',
           defaultValue: 'default text'
         }),
-        createPassword({
+        _.createPassword({
           label: 'Password Field',
           property: 'password-field',
           defaultValue: 'default password'
         }),
-        createNumeric({
+        _.createNumeric({
           label: 'Numeric Field',
           property: 'numeric-field',
           defaultValue: 10
         })
       ),
-      createParagraph({
+      _.createParagraph({
         label: "Paragraph Field",
         property: 'paragraph-field',
         defaultValue: 'default paragraph'
       }),
-      createDivider(),
-      createHeader("Date & Time Fields"),
-      createRow(
-        createDate({
+      _.createDivider(),
+      _.createHeader("Date & Time Fields"),
+      _.createRow(
+        _.createDate({
           label: 'Date Field',
           property: 'date-field',
           defaultValue: '@now()'
         }),
-        createDateTime({
+        _.createDateTime({
           label: 'Date/Time Field',
           property: 'datetime-field',
           defaultValue: '@now()'
         }),
-        createTime({
+        _.createTime({
           label: 'Time Field',
           property: 'time-field',
           defaultValue: '@now()'
         })
       ),
-      createDivider(),
-      createHeader("Boolean Fields"),
-      createRow(
-        createYesNo({
+      _.createDivider(),
+      _.createHeader("Boolean Fields"),
+      _.createRow(
+        _.createYesNo({
           label: 'Yes No Field',
           property: 'yesno-field',
           defaultValue: true
         }),
-        createConsent({
+        _.createConsent({
           label: 'Consent Field',
           property: 'consent-field',
           content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
@@ -101,32 +80,32 @@ const schema = createPage({
         }),
       )
     ),
-    createPanel(
+    _.createPanel(
       "List Fields",
-      createRow(
-        createDropdown({
+      _.createRow(
+        _.createDropdown({
           label: 'Data Room Name',
-          options: createOptions('Apple', 'Banana', 'Cherry'),
+          options: _.createOptions('Apple', 'Banana', 'Cherry'),
           property: 'radio-field'
         })
       ),
-      createRow(
-        createRadioList({
+      _.createRow(
+        _.createRadioList({
           label: 'Radio List Field',
-          options: createOptions('Apple', 'Banana', 'Cherry'),
+          options: _.createOptions('Apple', 'Banana', 'Cherry'),
           property: 'radio-field'
         }),
-        createCheckboxList({
+        _.createCheckboxList({
           label: 'Checkbox List Field',
-          options: createOptions('Apple', 'Banana', 'Cherry'),
+          options: _.createOptions('Apple', 'Banana', 'Cherry'),
           property: 'checkbox-field',
           direction: 'horizontal'
         })
       )
     ),
-    createPanel(
+    _.createPanel(
       "Compound Fields",
-      createAddress({
+      _.createAddress({
         label: 'Address Field',
         property: 'address-field',
         defaultValue: ({ lineOne: 'lineOne', lineTwo: 'lineTwo?', city: 'city', region: 'state', postalCode: 'zipcode' })

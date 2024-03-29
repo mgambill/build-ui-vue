@@ -51,17 +51,17 @@ const schema = createPage({
         createText({
           label: 'Text Field',
           property: 'text-field',
-          defaultValue: 'default text'
+          placeholder: 'default text'
         }),
         createPassword({
           label: 'Password Field',
           property: 'password-field',
-          defaultValue: 'default password'
+          placeholder: 'default password'
         }),
         createNumeric({
           label: 'Numeric Field',
           property: 'numeric-field',
-          defaultValue: 10
+          placeholder: "enter a number"
         })
       ),
       createParagraph({
@@ -114,6 +114,11 @@ const schema = createPage({
           label: 'Data Room Name',
           options: createOptions('Apple', 'Banana', 'Cherry'),
           property: 'dropdown-field'
+        }),
+        createDropdown({
+          label: 'Data Room Name',
+          options: createOptions({ group: 'Letters', options: createOptions('A','B','C')}, { group: 'Numbers', options: createOptions('1','2','3')}),
+          property: 'dropdown-alt-field'
         })
       ),
       createRow(
@@ -140,16 +145,15 @@ const schema = createPage({
       }),
       createDivider(),
       createRepeater({
-
         label: 'Repeater Field',
         fields: [
           createText({
             label: 'Text Field',
-            property: 'text-field'
+            property: 'inner-text-field'
           }),
           createNumeric({
             label: 'Numeric Field',
-            property: 'numeric-field',
+            property: 'inner-numeric-field',
             defaultValue: 2
           })
         ],

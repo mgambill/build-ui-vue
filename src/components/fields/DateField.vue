@@ -15,6 +15,6 @@ const value = useValue(props)
 <template>
   <Wrapper v-bind="props">
     <LabelField v-bind="props" />
-    <input type="date" v-model="value" />
+    <input type="date" v-model="value" v-bind="field.attrs" />
   </Wrapper>
 </template>

@@ -14,6 +14,6 @@ const value = useValue<string>(props)
 <template>
   <Wrapper v-bind="props">
     <LabelField v-bind="props" />
-    <input type="time" v-model="value" />
+    <input type="time" v-model="value" v-bind="field.attrs" />
   </Wrapper>
 </template>

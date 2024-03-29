@@ -24,4 +24,7 @@ export type Field = {
 export type Option = {
   label: string;
   value: string;
+} | {
+  group: string
+  options: Omit<Option, 'group' | 'options'>[];
 };

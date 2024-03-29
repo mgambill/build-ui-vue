@@ -6,7 +6,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/about',
+      redirect: '/select',
     },
     {
       path: '/home',
@@ -28,6 +28,14 @@ const router = createRouter({
       // this generates a separate chunk (loan.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/LoanView.vue')
+    },
+    {
+      path: '/select',
+      name: 'select',
+      // route level code-splitting
+      // this generates a separate chunk (select.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/SelectView.vue')
     }
   ]
 })

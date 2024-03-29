@@ -5,15 +5,15 @@ import Wrapper from './Wrapper.vue'
 import type { FieldProps } from '.';
 import { useFormState } from './useFormState'
 
-const props = defineProps<FieldProps>()
+const {type, ...props} = defineProps<FieldProps & { type: string }>()
 const { useValue } = useFormState()
 const { isEditor = false } = useEditorState()
-const value = useValue<string>(props)
+const value = useValue(props)
 </script>
 
 <template>
   <Wrapper v-bind="props">
     <LabelField v-bind="props" />
-    <input type="text" v-model="value" />
+    <input :type="type" v-model.number="value" v-bind="field.attrs" />
   </Wrapper>
 </template>

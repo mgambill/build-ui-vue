@@ -14,6 +14,6 @@ const value = useValue<string>(props)
 <template>
   <Wrapper v-bind="props">
     <LabelField v-bind="props" />
-    <textarea v-model="value"></textarea>
+    <textarea v-model="value" v-bind="field.attrs"></textarea>
   </Wrapper>
 </template>
