@@ -24,10 +24,10 @@ const onCancel = () => {
 }
 const temp = ref<string>('')
 const direction = props.field.props?.direction ?? 'horizontal'
-const emptyOther = { label: 'Other', value: 'Other' }
+const otherOption = { label: 'Other', value: 'Other' }
 const allowOther = props.field.props?.allowOther
-const isOther = computed(() => toValue(localValue)?.includes(emptyOther))
-const options = (props.field.props?.allowOther) ? [...props.field.options as Option[], emptyOther] : props.field.options
+const isOther = computed(() => toValue(localValue)?.includes(otherOption))
+const options = (props.field.props?.allowOther) ? [...props.field.options as Option[], otherOption] : props.field.options
 
 </script>
 
@@ -41,7 +41,7 @@ const options = (props.field.props?.allowOther) ? [...props.field.options as Opt
         <template v-for="op in options" :key="op">
           <template v-if="isEditor && field">
             <div class="flex items-center gap-1.5 hover:bg-sky-50">
-              <input type="checkbox" :name="`option-${op.value}`" v-model="localValue" :value="op"
+              <input type="checkbox" :name="`option-${field.id}-${op.value}`" v-model="localValue" :value="op"
                 class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" />
               <InlineContent v-model="op.label" />
               <button @click="e => removeOption(field, op)"
@@ -53,7 +53,7 @@ const options = (props.field.props?.allowOther) ? [...props.field.options as Opt
               <input type="checkbox" :name="`fld-${field.id}`" :id="`option-${field.id}-${op.value}`"
                 v-model="localValue" :value="op"
                 class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" />
-              <label :for="`option-${op.value}`">{{ op.label }}</label>
+              <label :for="`option-${field.id}-${op.value}`">{{ op.label }}</label>
             </div>
           </template>
         </template>

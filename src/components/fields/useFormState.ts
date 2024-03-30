@@ -18,7 +18,6 @@ function resolveDefaults(datasource: Ref<DataSet>, form: Form) {
 
   datasource.value = ds
 
-
   function extract(fields: FieldCollection | Field[]) {
     for (const field of fields) {
 
@@ -47,25 +46,27 @@ const [useProvideFormState, _useFormState] = createInjectionState((form: Form, i
   const useValue = <T>({ field, index, parent }: FieldProps, initialValue?: T) => {
 
     const key = resolveProperty(field)
+    const k = parent ? resolveProperty(parent) : key
+
+    datasource.value[key] = initialValue ?? null
 
     return computed({
       get: () => {
+        //console.log('get', key, datasource.value[key], initialValue)
         if (parent && index > -1) {
-          const k = resolveProperty(parent)
           if (datasource.value[k])
-            return datasource.value[k][index][key] ?? initialValue
+            return datasource.value[k][index][key] ?? initialValue ?? null
         }
 
-        return datasource.value[key] ?? initialValue
+        return datasource.value[key] ?? initialValue ?? null
 
       },
       set: (value) => {
+        //console.log('set', key)
         if (parent && index > -1) {
           const k = resolveProperty(parent)
           datasource.value[k][index][key] = value
         } else {
-
-
           datasource.value[key] = value
         }
       }

@@ -26,7 +26,7 @@ const value = useValue<Option>(props)
 const allowOther = props.field.props?.allowOther
 const isOther = computed(() => allowOther && value.value === emptyOther.value)
 watchEffect(() => {
-  value.value = (isOther.value) ? emptyOther : null
+  value.value = (isOther.value) ? emptyOther : undefined
 })
 const options = computed(() => {
   if (props.field.props?.allowOther) {

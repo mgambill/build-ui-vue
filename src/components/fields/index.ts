@@ -1,7 +1,7 @@
-import type { Field, Option } from "./types"
+import type { Field, Option, StringDictionary } from "./types"
 
-export type FieldProps = {
-  field: Partial<Field>
+export type FieldProps<P = StringDictionary<any>, A = StringDictionary<string>> = {
+  field: Partial<Field<P,A>>
   index: number
   depth: number
   parent?: Partial<Field>

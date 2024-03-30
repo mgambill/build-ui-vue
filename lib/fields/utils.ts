@@ -17,7 +17,7 @@ export type CreateOption<T = string> = {
 
 type Condition<T = any, P = string> = {
   property: P,
-  token: 'Contains' | 'NotNull',
+  operator: 'Contains' | 'NotNull',
   value: T
 }
 
@@ -42,14 +42,14 @@ export const label = (label: LabelOption) => createField('label', 1107, { label 
 
 type CreateInputOption<T = string> = CreateOption<T> & { placeholder?: string, prefix?: string | { icon: string }, hint?: string }
 
-export const time = (options: CreateInputOption) => createInputField('time', 1140, options)
 
 export const numeric = (options: CreateInputOption<number> & { step?: number, min?: number, max?: number }) => {
-  const { placeholder, step, min, max, ...o } = options
-  return createInputField('numeric', 1157, o, ['placeholder', 'step', 'min', 'max'])
+  return createField('numeric', 1157, options, { attrs: ['placeholder', 'prefix', 'hint'], props: ['step', 'min', 'max'] })
 }
 
-export const text = (options: CreateInputOption) => createInputField('password', 1161, options)
+export const time = (options: CreateInputOption) => createInputField('time', 1140, options)
+
+export const text = (options: CreateInputOption) => createInputField('text', 1106, options)
 
 export const password = (options: CreateInputOption) => createInputField('password', 1161, options)
 
@@ -59,44 +59,37 @@ export const dateTime = (options: CreateInputOption) => createInputField('dateti
 
 export const date = (options: CreateInputOption) => createInputField('date', 1126, options)
 
-const createInputField = <T>(control: Field['control'], controlId: number, options: CreateInputOption<T>, attrKeys?: string[], propKeys?: string[]) => {
-  let ak = ['placeholder', 'prefix', 'hint']
-  if (attrKeys)
-    ak = [...ak, ...attrKeys]
-  const opt = extractOptions(options, ak, propKeys)
-  return createField(control, controlId, opt)
+const createInputField = <T>(control: Field['control'], controlId: number, options: CreateInputOption<T>) => {
+  return createField(control, controlId, options, { attrs: ['placeholder', 'prefix', 'hint'] })
 }
 
-export const createAddress = (option: CreateOption<Address>) => createField<Address>('address', 1169, option)
+export const address = (options: CreateOption<Address>) => createField('address', 1169, options)
 
-export const address = (options: CreateOption<Address>) => createField<Address>('address', 1169, options)
 
-export const yesNo = (options: CreateOption<boolean>) => createField('yesno', 1101, options)
+
+export const yesNo = (options: CreateOption<boolean> & { yesText?: string, noText?: string, allowEmpty?: boolean, layout?: 'dropdown' | 'radio list' }) => createField('yesno', 1101, options, { props: ['layout','noText', 'yesText', 'allowEmpty'], defaults: { layout: 'radio list' } })
 
 export const consent = (options: CreateOption<boolean> & { content: string }) => createField('consent', 1165, options)
 
 export const divider = (options?: CreateOption<never>) => createField('divider', 1162, options)
 
 
-
-export const dropdown = (options: CreateOptionWithChoices) => createField('row', 1103, options)
+export const dropdown = (options: CreateOptionWithChoices) => createField('dropdown', 1103, options)
 
 export const radioList = (options: CreateOptionWithChoices & { direction?: 'vertical' | 'horizontal', allowOther?: boolean, other?: Omit<CreateOption, 'id'> }) => {
-  const { direction, allowOther, other, ...rest } = options
-  return createField('radiolist', 1104, rest, { props: { direction: direction ?? 'horizontal', allowOther, other } })
+  return createField('radiolist', 1104, options, { props: ['direction', 'allowOther', 'other'], defaults: { direction: 'horizontal' } })
 }
 
 export const checkboxList = (options: CreateOptionWithChoices & { direction?: 'vertical' | 'horizontal', allowOther?: boolean, other?: Omit<CreateOption, 'id'> }) => {
-  const { direction, allowOther, other, ...rest } = options
-  return createField('checkboxlist', 1105, rest, { props: { direction: direction ?? 'horizontal', allowOther, other } })
+  return createField('checkboxlist', 1105, options, { props: ['direction', 'allowOther', 'other'], defaults: { direction: 'horizontal' } })
 }
 
-const createField = <T = string>(control: Field['control'], controlId: number, option?: CreateOption<T> | CreateOptionWithChoices, overrides?: any): Field => {
+const createField = <T, O extends CreateOption<T>>(control: Field['control'], controlId: number, option?: O, settings?: ExtractOptionsConfig): Field => {
   const { label = null, ...rest } = option ?? {}
   const _label = option?.label ? (typeof label === 'string' ? { text: label } : label) : null
-
+  const opts = extractOptions(rest, settings)
   const id = option?.id ?? crypto.randomUUID()
-  return { id, controlId, control, label: _label, ...rest, ...overrides } as Field
+  return { id, controlId, control, label: _label, ...opts } as Field
 }
 
 //
@@ -130,11 +123,18 @@ export const page = (option: FormSchemaOption & Partial<Form>) => ({
   slots: { default: { label: 'default', fields: option.fields as Field[] } }
 }) as Form;
 
-function extractOptions(
-  obj: Record<string, any>,
-  attrKeys: string[] = [],
-  propKeys: string[] = []
+type ExtractOptionsConfig = {
+  attrs?: string[],
+  props?: string[],
+  defaults?: Record<string, any>
+}
+
+function extractOptions<T, TOption extends Partial<CreateOption<T>>>(
+  obj: TOption,
+  config: ExtractOptionsConfig = {}
 ) {
+  const { attrs: attrKeys = [], props: propKeys = [], defaults: defaultValues = {} } = config;
+
   // First Position: Remaining key/values
   const remaining: Record<string, any> = {};
 
@@ -146,15 +146,16 @@ function extractOptions(
 
   // Iterate through the keys of the input object
   for (const key of Object.keys(obj)) {
+
     if (attrKeys.includes(key)) {
       // If the key is in attrKeys, add it to attrObj
-      attrObj[key] = obj[key];
+      attrObj[key] = obj[key] ?? defaultValues[key]
     } else if (propKeys.includes(key)) {
       // If the key is in propKeys, add it to propObj
-      propObj[key] = obj[key];
+      propObj[key] = obj[key] ?? defaultValues[key]
     } else {
       // If the key is not in attrKeys or propKeys, add it to remaining
-      remaining[key] = obj[key];
+      remaining[key] = obj[key] ?? defaultValues[key]
     }
   }
 
