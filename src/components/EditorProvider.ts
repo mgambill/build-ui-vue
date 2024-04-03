@@ -78,8 +78,12 @@ export { useProvideEditorState }
 const noop = () => { }
 
 export function useEditorState() {
-  const counterStore = _useEditorState()
+  
+    const store = _useEditorState()
+    if (store === undefined)
+      return { isEditor: false, datasource: {}, currentField: null, selectField: noop, updateField: noop, removeOption: noop, addOption: noop }
 
-  return counterStore ?? { isEditor: false, datasource: {}, currentField: null, selectField: noop, updateField: noop, removeOption: noop, addOption: noop }
+    return store
+
 }
 

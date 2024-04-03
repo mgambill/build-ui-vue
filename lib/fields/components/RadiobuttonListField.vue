@@ -5,11 +5,11 @@ import LabelField from './LabelField.vue'
 import Wrapper from './Wrapper.vue'
 import type { FieldProps, Option } from '.';
 import { useFormState } from './useFormState'
-import ParagraphField from './ParagraphField.vue';
+import RadioButton from 'primevue/radiobutton';
 
 const props = defineProps<FieldProps>()
 const { useValue } = useFormState()
-const { isEditor, removeOption, addOption } = useEditorState()
+const { isEditor = false } = useEditorState()
 const onUpdate = (e) => {
   console.log('onUpdate', e)
   temp.value = e.target.value
@@ -18,17 +18,24 @@ const onSubmit = () => {
   addOption(props.field, temp.value)
   onCancel()
 }
-const localValue = useValue<Option[]>(props, [])
+const emptyOther = { label: 'Other', value: 'Other' }
 const onCancel = () => {
   temp.value = ""
 }
 const temp = ref<string>('')
 const direction = props.field.props?.direction ?? 'horizontal'
-const emptyOther = { label: 'Other', value: 'Other' }
+const value = useValue<Option>(props)
 const allowOther = props.field.props?.allowOther
-const isOther = computed(() => toValue(localValue)?.includes(emptyOther))
-const options = (props.field.props?.allowOther) ? [...props.field.options as Option[], emptyOther] : props.field.options
-
+const isOther = computed(() => allowOther && value.value === emptyOther.value)
+watchEffect(() => {
+  value.value = (isOther.value) ? emptyOther : null
+})
+const options = computed(() => {
+  if (props.field.props?.allowOther) {
+    return [props.field.options, emptyOther] as Option[]
+  }
+  return props.field.options as Option[]
+})
 </script>
 
 <template>
@@ -37,11 +44,13 @@ const options = (props.field.props?.allowOther) ? [...props.field.options as Opt
       <legend class="mb-1">
         <LabelField v-bind="props" />
       </legend>
+
       <div :class="direction ? 'flex gap-4' : 'flex flex-col gap-4'">
+
         <template v-for="op in options" :key="op">
           <template v-if="isEditor && field">
-            <div class="flex items-center gap-1.5 hover:bg-sky-50">
-              <input type="checkbox" :name="`option-${op.value}`" v-model="localValue" :value="op"
+            <div class="flex items-center gap-1 hover:bg-sky-50">
+              <input type="radio" :name="`option-${op.value}`" v-model="value" :value="op"
                 class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" />
               <InlineContent v-model="op.label" />
               <button @click="e => removeOption(field, op)"
@@ -49,15 +58,21 @@ const options = (props.field.props?.allowOther) ? [...props.field.options as Opt
             </div>
           </template>
           <template v-else>
-            <div class="flex items-center gap-1.5">
-              <input type="checkbox" :name="`fld-${field.id}`" :id="`option-${field.id}-${op.value}`"
-                v-model="localValue" :value="op"
-                class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" />
-              <label :for="`option-${op.value}`">{{ op.label }}</label>
+            <div class="flex items-center gap-1.5" v-if="'value' in op">
+              <RadioButton v-model="value" :inputId="`option-${field.id}-${op.value}`" :name="`fld-${field.id}`"
+                :value="op" />
+              <label :for="`option-${field.id}-${op.value}`">{{ op.label }}</label>
             </div>
           </template>
         </template>
 
+        <!-- <template v-if="props.field.props?.allowOther">
+          <div class="flex items-center gap-1.5">
+            <input type="radio" v-model="isOther" :name="`fld-${field.id}`" :id="`option-${field.id}-other`"
+              value="Other" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" />
+            <label :for="`option-${field.id}-other`">Other</label>
+          </div>
+        </template> -->
 
         <template v-if="isEditor && field">
           <template v-if="props.field.options?.length === 0">
@@ -71,10 +86,6 @@ const options = (props.field.props?.allowOther) ? [...props.field.options as Opt
           </div>
         </template>
       </div>
-
-      <template v-if="allowOther && isOther">
-        <ParagraphField :field="props.field.props.other" class="my-2 border-l pl-3 ml-2" />
-      </template>
     </fieldset>
   </Wrapper>
 </template>

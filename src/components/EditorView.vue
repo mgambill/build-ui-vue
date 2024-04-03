@@ -2,14 +2,14 @@
 import type { ParentConfig } from "@formkit/drag-and-drop";
 import { useDragAndDrop } from "@formkit/drag-and-drop/vue";
 import { useProvideEditorState, type PathwayTemplate, useEditorState } from '@/components/EditorProvider'
-import FieldCollectionResolver from './fields/FieldCollectionResolver.vue';
-import type { Field } from '@/components/fields/types'
+import type { Field } from '~/fields/types'
 
-import TextField from '@/components/fields/TextField.vue';
-import DateField from '@/components/fields/DateField.vue';
-import RadiobuttonListField from '@/components/fields/RadiobuttonListField.vue';
-import CheckboxListField from '@/components/fields/CheckboxListField.vue';
-import NumberField from '@/components/fields/NumberField.vue';
+import FieldCollectionResolver from '~/fields/components/FieldCollectionResolver.vue';
+import TextField from '~/fields/components/TextField.vue';
+import DateField from '~/fields/components/DateField.vue';
+import RadiobuttonListField from '~/fields/components/RadiobuttonListField.vue';
+import CheckboxListField from '~/fields/components/CheckboxListField.vue';
+import NumberField from '~/fields/components/NumberField.vue';
 import InlineContent from '@/components/ui/InlineContent.vue';
 import type { FieldProps } from './fields';
 

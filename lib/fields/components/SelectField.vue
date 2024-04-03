@@ -4,6 +4,7 @@ import Wrapper from './Wrapper.vue'
 import LabelField from './LabelField.vue';
 import type { FieldProps, Option } from '.';
 import { useFormState } from './useFormState'
+import Dropdown from 'primevue/dropdown';
 
 const props = defineProps<FieldProps>()
 
@@ -18,8 +19,10 @@ const value = useValue<Option>(props)
   <Wrapper v-bind="props">
     <LabelField v-bind="props" />
 
-    <select name="" id="" v-if="field.options">
-      <template v-for="option in field.options" :key="option.value">
+    <Dropdown v-model="value" :options="field.options" optionLabel="label"
+        placeholder="Select a City" class="w-full md:w-14rem">
+
+      <!-- <template v-for="option in field.options" :key="option.value">
         <template v-if="'group' in option && option.group">
           <optgroup :label="option.group">
             <template v-for="o in option.options" :key="o.value">
@@ -30,8 +33,8 @@ const value = useValue<Option>(props)
         <template v-else-if="'value' in option">
           <option :value="option.value">{{ option.label }}</option>
         </template>
-      </template>
-    </select>
+      </template> -->
+    </Dropdown>
   </Wrapper>
 
 </template>

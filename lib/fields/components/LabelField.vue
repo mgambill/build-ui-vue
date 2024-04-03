@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import InlineContent from '../ui/InlineContent.vue';
+import InlineContent from '@/components/ui/InlineContent.vue';
 import { useEditorState } from '@/components/EditorProvider'
 import Label from '@/components/ui/Label.vue'
 import type { FieldProps } from '.';

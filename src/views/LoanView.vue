@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import type { MaybeRef } from 'vue'
-import { useProvideFormState, type DataSet } from '../components/fields/useFormState'
-import type { Form, Option } from '@/components/fields/types';
+import { useProvideFormState, type DataSet } from '~/fields/components/useFormState'
+import type { Form, Option } from '~/fields/types';
 import * as field from '~/fields'
 import { createOptions } from '~/fields'
 
-import FieldCollectionResolver from '../components/fields/FieldCollectionResolver.vue'
+import FieldCollectionResolver from '~/fields/components/FieldCollectionResolver.vue'
 import { useToggle } from '@vueuse/core';
 
 

@@ -5,6 +5,7 @@ import Wrapper from './Wrapper.vue'
 import { useToggle } from '@vueuse/core'
 import type { FieldProps } from '.';
 import { useFormState } from './useFormState'
+import Password from 'primevue/password';
 
 const [isVisible, toggle] = useToggle()
 const props = defineProps<FieldProps>()
@@ -16,7 +17,8 @@ const value = useValue<string>(props)
 <template>
   <Wrapper v-bind="props">
     <LabelField v-bind="props" />
-    <div
+    <Password v-model="value" :feedback="false" toggleMask />
+    <!-- <div
       class="relative border border-control rounded-sm overflow-clip  has-[:focus-visible]:outline has-[:focus-visible]:outline-offset-0 has-[:focus-visible]:outline-black ">
       <input :type="isVisible ? 'text' : 'password'" v-model="value" class="!border-0 focus-visible:outline-none pr-8" />
       <div class="absolute inset-y-0 right-2 flex items-center">
@@ -35,6 +37,6 @@ const value = useValue<string>(props)
           </template>
         </button>
       </div>
-    </div>
+    </div> -->
   </Wrapper>
 </template>

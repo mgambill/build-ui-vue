@@ -4,6 +4,7 @@ import LabelField from './LabelField.vue'
 import Wrapper from './Wrapper.vue'
 import type { FieldProps } from '.';
 import { useFormState } from './useFormState'
+import InputText from 'primevue/inputtext';
 
 const props = defineProps<FieldProps>()
 const { useValue } = useFormState()
@@ -14,6 +15,6 @@ const value = useValue<string>(props)
 <template>
   <Wrapper v-bind="props">
     <LabelField v-bind="props" />
-    <input type="text" v-model="value" />
+    <InputText type="text" v-model="value" />
   </Wrapper>
 </template>
