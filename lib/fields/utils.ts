@@ -6,7 +6,7 @@ export type FormSchemaOption = {
   fields: Field[];
 };
 export type LabelOption = Field['label'] | string
-
+export type InputTextOption = CreateOption<string> & { placeholder?: string }
 export type CreateOption<T = string> = {
   id?: string
   label: LabelOption,
@@ -39,21 +39,35 @@ export const header = (label: LabelOption) => createField('heading', 1152, { lab
 
 export const label = (label: LabelOption) => createField('label', 1107, { label })
 
-export const time = (options: CreateOption) => createField('time', 1140, options)
 
-export const numeric = (options: CreateOption<number>) => createField('numeric', 1157, options)
+type CreateInputOption<T = string> = CreateOption<T> & { placeholder?: string, prefix?: string | { icon: string }, hint?: string }
 
-export const text = (options: CreateOption & { prefix?: string | { icon: string }, hint?: string }) => createField('text', 1106, options)
+export const time = (options: CreateInputOption) => createInputField('time', 1140, options)
 
-export const password = (options: CreateOption) => createField('password', 1161, options)
+export const numeric = (options: CreateInputOption<number> & { step?: number, min?: number, max?: number }) => {
+  const { placeholder, step, min, max, ...o } = options
+  return createInputField('numeric', 1157, o, ['placeholder', 'step', 'min', 'max'])
+}
 
-export const paragraph = (options: CreateOption) => createField('paragraph', 1124, options)
+export const text = (options: CreateInputOption) => createInputField('password', 1161, options)
 
-export const dateTime = (options: CreateOption) => createField('datetime', 1160, options)
+export const password = (options: CreateInputOption) => createInputField('password', 1161, options)
 
-export const date = (options: CreateOption) => createField('date', 1126, options)
+export const paragraph = (options: CreateInputOption) => createInputField('paragraph', 1124, options)
 
+export const dateTime = (options: CreateInputOption) => createInputField('datetime', 1160, options)
 
+export const date = (options: CreateInputOption) => createInputField('date', 1126, options)
+
+const createInputField = <T>(control: Field['control'], controlId: number, options: CreateInputOption<T>, attrKeys?: string[], propKeys?: string[]) => {
+  let ak = ['placeholder', 'prefix', 'hint']
+  if (attrKeys)
+    ak = [...ak, ...attrKeys]
+  const opt = extractOptions(options, ak, propKeys)
+  return createField(control, controlId, opt)
+}
+
+export const createAddress = (option: CreateOption<Address>) => createField<Address>('address', 1169, option)
 
 export const address = (options: CreateOption<Address>) => createField<Address>('address', 1169, options)
 
@@ -115,3 +129,34 @@ export const page = (option: FormSchemaOption & Partial<Form>) => ({
   ...option,
   slots: { default: { label: 'default', fields: option.fields as Field[] } }
 }) as Form;
+
+function extractOptions(
+  obj: Record<string, any>,
+  attrKeys: string[] = [],
+  propKeys: string[] = []
+) {
+  // First Position: Remaining key/values
+  const remaining: Record<string, any> = {};
+
+  // Second Position: Key/values based on attrKeys
+  const attrObj: Record<string, any> = {};
+
+  // Third Position: Key/value based on propKeys
+  const propObj: Record<string, any> = {};
+
+  // Iterate through the keys of the input object
+  for (const key of Object.keys(obj)) {
+    if (attrKeys.includes(key)) {
+      // If the key is in attrKeys, add it to attrObj
+      attrObj[key] = obj[key];
+    } else if (propKeys.includes(key)) {
+      // If the key is in propKeys, add it to propObj
+      propObj[key] = obj[key];
+    } else {
+      // If the key is not in attrKeys or propKeys, add it to remaining
+      remaining[key] = obj[key];
+    }
+  }
+
+  return { ...remaining, attrs: { ...attrObj }, props: { ...propObj } };
+}

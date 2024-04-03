@@ -19,6 +19,7 @@ import YesNoField from './YesNoField.vue';
 import ConsentField from './ConsentField.vue'
 import ContainerField from './ContainerField.vue'
 import RepeaterField from './RepeaterField.vue'
+import SelectField from './SelectField.vue'
 
 import type { FieldProps } from './';
 
@@ -49,7 +50,7 @@ const map = {
   //1114: ScaleFieldList,
   //1116: MultiFieldSelect,
   //1117: LiveFieldSearch,
-  1103: DropdownField,
+  1103: SelectField,
   1101: YesNoField,
   1165: ConsentField,
   1166: PanelField,

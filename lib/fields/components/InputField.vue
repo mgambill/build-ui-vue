@@ -4,10 +4,8 @@ import LabelField from './LabelField.vue'
 import Wrapper from './Wrapper.vue'
 import type { FieldProps } from '.';
 import { useFormState } from './useFormState'
-import Calendar from 'primevue/calendar';
 
-const props = defineProps<FieldProps>()
-
+const {type, ...props} = defineProps<FieldProps & { type: string }>()
 const { useValue } = useFormState()
 const { isEditor = false } = useEditorState()
 const value = useValue(props)
@@ -16,6 +14,6 @@ const value = useValue(props)
 <template>
   <Wrapper v-bind="props">
     <LabelField v-bind="props" />
-    <input type="date" v-model="value" v-bind="field.attrs" />
+    <input :type="type" v-model.number="value" v-bind="field.attrs" />
   </Wrapper>
 </template>

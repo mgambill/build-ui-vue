@@ -36,12 +36,12 @@ const schema = fields.page({
           }),
           fields.password({
             label: 'Password Field',
-            property: 'password-field',
+            property: 'inner-password-field',
             defaultValue: 'default password'
           }),
           fields.numeric({
             label: 'Numeric Field',
-            property: 'numeric-field',
+            property: 'inner-numeric-field',
             defaultValue: 10
           })
         ),
