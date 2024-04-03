@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { useToggle } from '@vueuse/core'
-import { useProvideFormState } from '../components/fields/useFormState'
-
+import type { MaybeRef } from 'vue'
+import { useProvideFormState, type DataSet } from '~/fields/components/useFormState'
+import type { Form, Option } from '~/fields/types';
 import * as field from '~/fields'
 import { createOptions, type Form, type Field, type FieldCollection } from '~/fields'
 import { ConditionRunner, conditionRunnerDefinitions, condition, type ConditionType, type Condition } from '~/ruleEngine'
-import FieldCollectionResolver from '../components/fields/FieldCollectionResolver.vue'
+import FieldCollectionResolver from '~/fields/components/FieldCollectionResolver.vue'
 
 const schema: Form = field.page({
   title: 'Custom Form',

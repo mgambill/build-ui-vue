@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { useProvideFormState } from '../components/fields/useFormState'
+import { useProvideFormState } from '~/fields/components/useFormState'
 
 import * as fields from '~/fields'
 import { createOptions } from '~/fields'
 
-import FieldCollectionResolver from '../components/fields/FieldCollectionResolver.vue'
+import FieldCollectionResolver from '~/fields/components/FieldCollectionResolver.vue'
 import { useToggle } from '@vueuse/core';
 
 const schema = fields.page({

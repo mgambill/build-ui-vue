@@ -10,7 +10,7 @@ import PasswordField from './PasswordField.vue';
 import DividerField from './DividerField.vue';
 import DateTimeField from './DateTimeField.vue';
 import TimeField from './TimeField.vue';
-import DropdownField from './DropdownField.vue';
+import DropdownField from './SelectField.vue';
 import AddressField from './AddressField.vue';
 import HeadingField from './HeadingField.vue'
 import PanelField from './PanelField.vue'

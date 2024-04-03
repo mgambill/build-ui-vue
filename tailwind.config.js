@@ -2,16 +2,13 @@ import animate from "tailwindcss-animate"
 import plugin from 'tailwindcss/plugin'
 import defaultTheme from 'tailwindcss/defaultTheme'
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
   darkMode: ["class"],
   safelist: ["dark"],
 
   content: [
     "./index.html",
-    './pages/**/*.{ts,tsx,vue}',
-    './components/**/*.{ts,tsx,vue}',
-    './app/**/*.{ts,tsx,vue}',
-    './src/**/*.{ts,tsx,vue}',
+    "./{src,lib}/**/*.{vue,js,ts,jsx,tsx}",
   ],
 
   theme: {

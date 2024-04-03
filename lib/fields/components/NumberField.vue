@@ -4,16 +4,17 @@ import LabelField from './LabelField.vue'
 import Wrapper from './Wrapper.vue'
 import type { FieldProps } from '.';
 import { useFormState } from './useFormState'
-
+import InputNumber from 'primevue/inputnumber';
 const props = defineProps<FieldProps>()
 const { useValue } = useFormState()
 const { isEditor = false } = useEditorState()
-const value = useValue<string>(props)
+const value = useValue(props)
 </script>
 
 <template>
   <Wrapper v-bind="props">
     <LabelField v-bind="props" />
-    <input type="text" v-model="value" v-bind="field.attrs" />
+    <InputNumber v-model.number="value" :step="field.props?.step" :min="field.props?.min"
+      :max="field.props?.max" />
   </Wrapper>
 </template>
